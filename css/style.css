@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid black; */
+}
+
+.buttons {
+    display: flex;
+}
+
+.arithmetic-buttons {
+    display: flex;
+    flex-direction: column;
+}
