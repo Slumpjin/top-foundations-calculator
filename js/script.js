@@ -1,3 +1,20 @@
+let leftOperand;
+let rightOperand;
+let operator;
+
+function operate(operator, leftOperand, rightOperand) {
+    switch(operator) {
+        case '+':
+            return add(leftOperand, rightOperand);
+        case '-':
+            return subtract(leftOperand, rightOperand);
+        case '*':
+            return multiply(leftOperand, rightOperand);
+        case '/':
+            return divide(leftOperand, rightOperand);
+    }
+}
+
 function add(leftOperand, rightOperand) {
     return leftOperand + rightOperand;
 }
