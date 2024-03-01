@@ -37,6 +37,11 @@ arithmeticButtons.forEach(button => button.addEventListener('click', (e) => {
         displayDiv.innerText = result;
         clearOperatorAndOperands();
     }
+    else if (result) {
+        leftOperand = result;
+        result = '';
+        operator = op;
+    }
     else {
         operator = op;
     }
