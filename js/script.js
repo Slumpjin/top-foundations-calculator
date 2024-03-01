@@ -1,83 +1,94 @@
-let leftOperand = '';
-let rightOperand = '';
-let operator = '';
-let result = '';
+const calculator = {
+    leftOperand: '',
+    rightOperand: '',
+    operator: '',
+    result:'',
+
+    operate() {
+        let leftOp = Number(this.leftOperand);
+        let rightOp = Number(this.rightOperand);
+
+        switch(this.operator) {
+            case '+':
+                return this.add(leftOp, rightOp);
+            case '-':
+                return this.subtract(leftOp, rightOp);
+            case '*':
+                return this.multiply(leftOp, rightOp);
+            case '/':
+                return this.divide(leftOp, rightOp);
+        }
+    },
+
+    add(leftOperand, rightOperand) {
+        return leftOperand + rightOperand;
+    },
+    
+    subtract(leftOperand, rightOperand) {
+        return leftOperand - rightOperand;
+    },
+    
+    multiply(leftOperand, rightOperand) {
+        return leftOperand * rightOperand;
+    },
+    
+    divide(leftOperand, rightOperand) {
+        return leftOperand / rightOperand;
+    },
+    
+    clearOperatorAndOperands() {
+        this.leftOperand = this.rightOperand = this.operator = '';
+    },
+}
 
 const displayDiv = document.querySelector('.display');
 
 const numberButtons = document.querySelectorAll('.number-buttons button');
 numberButtons.forEach(button => button.addEventListener('click', (e) => {
     let number = e.target.innerText;
-    if (operator === '') {
-        if (result) {
+    if (calculator.operator === '') {
+        if (calculator.result) {
             displayDiv.innerText = '';
-            result = '';
+            calculator.result = '';
         }
-        leftOperand += number;
-        displayDiv.innerText = leftOperand;
+        calculator.leftOperand += number;
+        displayDiv.innerText = calculator.leftOperand;
     }
     else {
-        rightOperand += number;
-        displayDiv.innerText = rightOperand;
+        calculator.rightOperand += number;
+        displayDiv.innerText = calculator.rightOperand;
     }
 }));
 
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', () => {
-    clearOperatorAndOperands();
+    calculator.clearOperatorAndOperands();
     displayDiv.innerText = '0';
 });
 
 const arithmeticButtons = document.querySelectorAll('.arithmetic-buttons');
 arithmeticButtons.forEach(button => button.addEventListener('click', (e) => {
+    if ((calculator.leftOperand === '' && calculator.rightOperand === '') || calculator.leftOperand === '') return;
+
     let op = e.target.innerText;
     if (op === '=') {
-        if (leftOperand === '' || rightOperand === '') return;
-        result = String(operate(operator, leftOperand, rightOperand));
-        displayDiv.innerText = result;
-        clearOperatorAndOperands();
+        if (calculator.leftOperand === '' || calculator.rightOperand === '') return;
+        calculator.result = String(calculator.operate());
+        displayDiv.innerText = calculator.result;
+        calculator.clearOperatorAndOperands();
     }
-    else if (result) {
-        leftOperand = result;
-        result = '';
-        operator = op;
+    else if (calculator.leftOperand !== '' && calculator.rightOperand !== '' && op !== '=') {
+        calculator.leftOperand = String(calculator.operate());
+        displayDiv.innerText = calculator.leftOperand;
+        calculator.rightOperand = '';
+        calculator.operator = op;
+    }
+    else if (calculator.result) {
+        calculator.leftOperand = calculator.result;
+        calculator.result = '';
+        calculator.operator = op;
     }
     else {
-        operator = op;
+        calculator.operator = op;
     }
 }));
-
-function operate(operator, leftOperand, rightOperand) {
-    let leftOp = Number(leftOperand);
-    let rightOp = Number(rightOperand);
-    switch(operator) {
-        case '+':
-            return add(leftOp, rightOp);
-        case '-':
-            return subtract(leftOp, rightOp);
-        case '*':
-            return multiply(leftOp, rightOp);
-        case '/':
-            return divide(leftOp, rightOp);
-    }
-}
-
-function add(leftOperand, rightOperand) {
-    return leftOperand + rightOperand;
-}
-
-function subtract(leftOperand, rightOperand) {
-    return leftOperand - rightOperand;
-}
-
-function multiply(leftOperand, rightOperand) {
-    return leftOperand * rightOperand;
-}
-
-function divide(leftOperand, rightOperand) {
-    return leftOperand / rightOperand;
-}
-
-function clearOperatorAndOperands() {
-    leftOperand = rightOperand = operator = '';
-}
