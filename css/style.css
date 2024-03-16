@@ -1,19 +1,52 @@
 body {
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #1f1f1f;
+    color: #fff;
+    font-family: monospace;
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
-    width: 200px;
-    /* border: 1px solid black; */
+    gap: 16px;
+    background-color: #313131;
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.display {
+    background-color: #525252;
+    border: 1px solid black;
+    min-height: 2em;
+    padding: 2px;
+    margin: 2px 0px;
+    text-align: right;
 }
 
 .buttons {
     display: flex;
+    gap: 4px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
 }
 
 .arithmetic-buttons {
     display: flex;
     flex-direction: column;
+}
+
+.arithmetic-buttons button {
+    background-color: lightblue;
+}
+
+button {
+    height: 4em;
+    width: 4em;
 }
