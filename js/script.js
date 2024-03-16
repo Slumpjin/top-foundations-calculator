@@ -4,7 +4,7 @@ const calculator = {
     operator: '',
     result:'',
 
-    operate() {
+    calculate() {
         let leftOp = Number(this.leftOperand);
         let rightOp = Number(this.rightOperand);
 
@@ -45,9 +45,11 @@ const displayDiv = document.querySelector('.display');
 
 const numberButtons = document.querySelectorAll('.number-buttons button');
 numberButtons.forEach(button => button.addEventListener('click', (e) => {
-    let number = e.target.innerText;
+    const number = e.target.innerText;
     if (calculator.operator === '') {
         if (calculator.result) {
+            // resets the calculator if a number is clicked after a result is
+            // calculated
             displayDiv.innerText = '';
             calculator.result = '';
         }
@@ -66,19 +68,36 @@ clearButton.addEventListener('click', () => {
     displayDiv.innerText = '0';
 });
 
+const deleteButton = document.querySelector('.delete');
+deleteButton.addEventListener('click', () => {
+    const displayDivTextLength = displayDiv.innerText.length;
+    if (calculator.leftOperand !== '' || calculator.rightOperand !== '') {
+        const slicedNumber = displayDiv.innerText.slice(0, displayDivTextLength - 1);
+        displayDiv.innerText = slicedNumber;
+        if (displayDivTextLength === 1) displayDiv.innerText = '0';
+        if (calculator.operator === '') {
+            calculator.leftOperand = String(Number(slicedNumber));
+        }
+        else {
+            calculator.rightOperand = String(Number(slicedNumber));
+        }
+    }
+});
+
 const arithmeticButtons = document.querySelectorAll('.arithmetic-buttons');
 arithmeticButtons.forEach(button => button.addEventListener('click', (e) => {
-    if ((calculator.leftOperand === '' && calculator.rightOperand === '') || calculator.leftOperand === '') return;
+    if (calculator.leftOperand === '') return;
 
     let op = e.target.innerText;
     if (op === '=') {
         if (calculator.leftOperand === '' || calculator.rightOperand === '') return;
-        calculator.result = String(calculator.operate());
+        calculator.result = String(calculator.calculate());
         displayDiv.innerText = calculator.result;
         calculator.clearOperatorAndOperands();
     }
     else if (calculator.leftOperand !== '' && calculator.rightOperand !== '' && op !== '=') {
-        calculator.leftOperand = String(calculator.operate());
+        // for chaining operations
+        calculator.leftOperand = String(calculator.calculate());
         displayDiv.innerText = calculator.leftOperand;
         calculator.rightOperand = '';
         calculator.operator = op;
